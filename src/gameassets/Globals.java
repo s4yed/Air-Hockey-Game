@@ -50,9 +50,9 @@ public class Globals {
             csvReader.close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
-        }
+}
         return allPlayersData;
-    }
+                }
 
     public static void endGame() {
         try {
