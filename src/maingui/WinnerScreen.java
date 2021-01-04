@@ -49,6 +49,7 @@ public class WinnerScreen extends JFrame implements ScreenInitializer {
         setResizable(false);
         setSize(600, 350);
         setIconImage(Constants.GAME_ICON);
+        setLocationRelativeTo(null);
         getContentPane().add(panel);
     }
 }
