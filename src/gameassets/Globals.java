@@ -15,10 +15,11 @@ import java.util.ArrayList;
 
 public class Globals {
     public static Constants.LEVELS gameLevel = Constants.LEVELS.MEDIUM;
+    public static boolean isSingleMode = true;
     public static Player firstPlayer = new Player("");
     public static Player secondPlayer = new Player("AI");
     public static StartScreen startScreen = new StartScreen();
-    public static SocketClient AI = new SocketClient(64092);
+    public static SocketClient AI = new SocketClient(1337);
     public static Paddle[] paddles;
     public static GameTimer timer;
     public static Animator animator;
@@ -28,18 +29,19 @@ public class Globals {
 
     public static void startGame() {
         startScreen.setVisible(false);
-        isGameOpened = true;
-        timer = new GameTimer(1000);
-        animator = new FPSAnimator(Constants.FBS);
-        glCanvas = new GLCanvas();
-        gamePlay = new GamePlay();
-        paddles = new Paddle[]{
-                new Paddle(40, new Point(Constants.SCREEN_WIDTH - 70, Constants.CANVAS_HEIGHT / 2f), Constants.DARK, true, 0),
-                new Paddle(40, new Point(70, Constants.CANVAS_HEIGHT / 2f), Constants.DARK, true, 0)
-        };
-        animator.add(glCanvas);
-        resumeGame();
-        glCanvas.requestFocus();
+        new Thread(() -> {
+            isGameOpened = true;
+            timer = new GameTimer(1000);
+            paddles = new Paddle[]{
+                    new Paddle(40, new Point(Constants.SCREEN_WIDTH - 70, Constants.CANVAS_HEIGHT / 2f), Constants.DARK, true, 0),
+                    new Paddle(40, new Point(70, Constants.CANVAS_HEIGHT / 2f), Constants.DARK, true, 0)
+            };
+            animator = new FPSAnimator(Constants.FBS);
+            glCanvas = new GLCanvas();
+            gamePlay = new GamePlay();
+            animator.add(glCanvas);
+            resumeGame();
+        }).start();
     }
 
     public static ArrayList<String[]> readPlayersData() {
@@ -62,7 +64,8 @@ public class Globals {
         isGameOpened = false;
         Constants.MAIN_MUSIC.resume();
         try {
-            pauseGame();
+            timer.stop();
+            animator.stop();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -75,12 +78,14 @@ public class Globals {
     }
 
     public static void pauseGame() {
+        Constants.MAIN_MUSIC.stop();
         timer.counter.setText("PAUSE");
         timer.stop();
         animator.stop();
     }
 
     public static void resumeGame() {
+        Constants.MAIN_MUSIC.resume();
         timer.start();
         animator.start();
     }
