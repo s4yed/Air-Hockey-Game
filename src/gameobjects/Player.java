@@ -35,7 +35,7 @@ public class Player {
         LocalDateTime myDateObj = LocalDateTime.now();
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("E MMM dd yyyy HH:mm");
         date = myDateObj.format(myFormatObj);
-        score.setFont(Constants.DISPLAY_FONT);
+        score.setFont(Constants.DISPLAY_FONT());
         score.setForeground(Constants.LIGHT);
     }
 
