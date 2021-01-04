@@ -1,8 +1,9 @@
 package airhockeygame;
 
 import gameassets.Globals;
+import maingui.StartScreen;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 public class AirHockeyGame {
 
