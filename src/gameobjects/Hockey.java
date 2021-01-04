@@ -28,8 +28,8 @@ public class Hockey extends Circle {
         angle = 0;
         switch (Globals.gameLevel) {
             case EASY -> speed = Constants.SPEED;
-            case HARD -> speed = Constants.SPEED + 100;
-            default -> speed = Constants.SPEED + 50;
+            case HARD -> speed = Constants.SPEED + 200;
+            default -> speed = Constants.SPEED + 100;
         }
     }
 
@@ -125,7 +125,7 @@ public class Hockey extends Circle {
         vecB = new Point(tempAngle + Math.PI, 2 * speed * mass / totalMass);
         newVec = addVectors(vecA, vecB);
         paddle.angle = newVec.x;
-        paddle.speed = tempSpeed;
+//        paddle.speed = tempSpeed;
 
         // If the paddle and the hockey collides then it must never overlap
         float overlap = 0.5f * (radius + paddle.radius - dist + 2);
@@ -166,7 +166,7 @@ public class Hockey extends Circle {
     public void move(float deltaTime) {
         position.x += Math.sin(angle) * speed * deltaTime;
         position.y -= Math.cos(angle) * speed * deltaTime;
-        speed *= 0.998;
+        speed *= 0.9998;
         if (speed < Constants.MIN_SPEED)
             speed = Constants.MIN_SPEED;
     }
