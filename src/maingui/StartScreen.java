@@ -7,7 +7,7 @@ package maingui;
  */
 
 import gameassets.Constants;
-import gameassets.PlayAudio;
+import gameassets.Globals;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,10 +18,8 @@ public class StartScreen extends javax.swing.JFrame implements ScreenInitializer
      * Creates new form MainInterface
      */
 
-    private final PlayAudio musicLoop;
-
-    public StartScreen(PlayAudio musicLoop) {
-        this.musicLoop = musicLoop;
+    public StartScreen() {
+        Constants.MAIN_MUSIC.play(true);
         initComponents();
     }
 
@@ -50,8 +48,7 @@ public class StartScreen extends javax.swing.JFrame implements ScreenInitializer
         setForeground(Constants.LIGHT);
         setPreferredSize(new java.awt.Dimension(600, 800));
         setResizable(false);
-        ImageIcon icon = new ImageIcon(Constants.IMAGE_DIR + "air-hockey.png");
-        setIconImage(icon.getImage());
+        setIconImage(Constants.GAME_ICON);
 
         mainPanel.setBackground(Constants.DARK);
         mainPanel.setForeground(Constants.LIGHT);
@@ -105,11 +102,7 @@ public class StartScreen extends javax.swing.JFrame implements ScreenInitializer
         instructionsButton.setRequestFocusEnabled(false);
         instructionsButton.setRolloverEnabled(false);
         instructionsButton.setVerifyInputWhenFocusTarget(false);
-        instructionsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonActionPerformed(evt);
-            }
-        });
+        instructionsButton.addActionListener(this::buttonActionPerformed);
 
         exitButton.setBackground(Constants.LIGHT);
         exitButton.setFont(mainFont(50, Font.BOLD));
@@ -237,46 +230,53 @@ public class StartScreen extends javax.swing.JFrame implements ScreenInitializer
         pack();
     }// </editor-fold>
 
+    private SinglePlayerScreen sP = null;
+    private TwoPlayerScreen tP = null;
     private void buttonActionPerformed(java.awt.event.ActionEvent evt) {
         String action = evt.getActionCommand();
         switch (action) {
             case "Single":
-                buttonSound.play(false);
-                SinglePlayerScreen sPlayer = new SinglePlayerScreen();
-                sPlayer.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-                sPlayer.setVisible(true);
+                if (!Globals.isGameOpened) {
+                    buttonSound.play(false);
+                    if (tP != null) {
+                        tP.dispose();
+                    }
+                    sP = SinglePlayerScreen.getInstance();
+                    sP.setVisible(true);
+                }
                 break;
             case "Two":
-                buttonSound.play(false);
-                TwoPlayerScreen tPlayer = new TwoPlayerScreen();
-                tPlayer.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-                tPlayer.setVisible(true);
+                if (!Globals.isGameOpened) {
+                    buttonSound.play(false);
+                    if (sP != null) {
+                        sP.dispose();
+                    }
+                    tP = TwoPlayerScreen.getInstance();
+                    tP.setVisible(true);
+                }
                 break;
             case "High Score":
                 buttonSound.play(false);
-                HighScoreScreen highScore = new HighScoreScreen();
-                highScore.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-                highScore.setVisible(true);
+                HighScoreScreen.getInstance().setVisible(true);
                 break;
             case "How To Play":
                 buttonSound.play(false);
-                InstructionsScreen ins = new InstructionsScreen();
-                ins.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-                ins.setVisible(true);
+                InstructionsScreen.getInstance().setVisible(true);
                 break;
             case "Mute":
-                if (musicLoop.isMuted) {
-                    musicLoop.resume();
+                if (Constants.MAIN_MUSIC.isMuted) {
+                    Constants.MAIN_MUSIC.resume();
                     muteButton.setIcon(new javax.swing.ImageIcon(Constants.IMAGE_DIR + "volume.png"));
                 } else {
-                    musicLoop.stop();
+                    Constants.MAIN_MUSIC.stop();
                     muteButton.setIcon(new javax.swing.ImageIcon(Constants.IMAGE_DIR + "mute.png"));
                 }
                 break;
             case "Exit":
                 buttonSound.play(false);
-                musicLoop.close();
+                Constants.MAIN_MUSIC.close();
                 this.dispose();
+                System.exit(0);
         }
     }
 

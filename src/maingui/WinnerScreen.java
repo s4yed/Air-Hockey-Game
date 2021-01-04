@@ -1,13 +1,10 @@
 package maingui;
 
 import gameassets.Constants;
-import gameassets.Globals;
 import gameobjects.Player;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class WinnerScreen extends JFrame implements ScreenInitializer {
 
@@ -51,8 +48,7 @@ public class WinnerScreen extends JFrame implements ScreenInitializer {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         setSize(600, 350);
-        ImageIcon icon = new ImageIcon(Constants.IMAGE_DIR + "air-hockey.png");
-        setIconImage(icon.getImage());
+        setIconImage(Constants.GAME_ICON);
         getContentPane().add(panel);
     }
 }
