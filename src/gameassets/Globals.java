@@ -6,6 +6,7 @@ import gameobjects.Paddle.Paddle;
 import gameobjects.Player;
 import gameobjects.Point;
 import gameplay.GamePlay;
+import maingui.StartScreen;
 
 import javax.media.opengl.GLCanvas;
 import java.io.BufferedReader;
@@ -16,25 +17,28 @@ public class Globals {
     public static Constants.LEVELS gameLevel = Constants.LEVELS.MEDIUM;
     public static Player firstPlayer = new Player("");
     public static Player secondPlayer = new Player("AI");
-    public static Paddle[] paddles;
+    public static StartScreen startScreen = new StartScreen();
     public static SocketClient AI = new SocketClient(64092);
+    public static Paddle[] paddles;
     public static GameTimer timer;
     public static Animator animator;
     public static GLCanvas glCanvas;
-    private static GamePlay gamePlay;
+    public static GamePlay gamePlay;
+    public static boolean isGameOpened;
 
     public static void startGame() {
+        startScreen.setVisible(false);
+        isGameOpened = true;
+        timer = new GameTimer(1000);
+        animator = new FPSAnimator(Constants.FBS);
+        glCanvas = new GLCanvas();
+        gamePlay = new GamePlay();
         paddles = new Paddle[]{
                 new Paddle(40, new Point(Constants.SCREEN_WIDTH - 70, Constants.CANVAS_HEIGHT / 2f), Constants.DARK, true, 0),
                 new Paddle(40, new Point(70, Constants.CANVAS_HEIGHT / 2f), Constants.DARK, true, 0)
         };
-        timer = new GameTimer(1000);
-        animator = new FPSAnimator(Constants.FBS);
-        glCanvas = new GLCanvas();
-        gamePlay = GamePlay.getInstance();
         animator.add(glCanvas);
-        animator.start();
-        timer.start();
+        resumeGame();
         glCanvas.requestFocus();
     }
 
@@ -50,22 +54,34 @@ public class Globals {
             csvReader.close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
-}
+        }
         return allPlayersData;
-                }
+    }
 
     public static void endGame() {
+        isGameOpened = false;
+        Constants.MAIN_MUSIC.resume();
         try {
-            timer.stop();
-            animator.stop();
+            pauseGame();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
         gamePlay.dispose();
-        gamePlay.removeInstance();
         firstPlayer.setPlayerData();
         secondPlayer.setPlayerData();
         firstPlayer.initPlayerData();
         secondPlayer.initPlayerData();
+        startScreen.setVisible(true);
+    }
+
+    public static void pauseGame() {
+        timer.counter.setText("PAUSE");
+        timer.stop();
+        animator.stop();
+    }
+
+    public static void resumeGame() {
+        timer.start();
+        animator.start();
     }
 }
