@@ -27,6 +27,10 @@ public class TwoPlayerScreen extends javax.swing.JFrame implements ScreenInitial
         return twoPlayerScreen;
     }
 
+    public void removeInstance() {
+        twoPlayerScreen = null;
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.

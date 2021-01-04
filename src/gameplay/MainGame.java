@@ -21,16 +21,13 @@ public class MainGame implements GLEventListener {
     private int elapsedNanos;
     private int frames = Constants.FBS;
     private Hockey hockey;
-    private PaddleListener paddleListener;
 
 //    private TextureReader.Texture texture;
     private final int[] textureIndex = new int[1];
 
 
-    MainGame() {
-//        this.p1 = p1;
-//        this.p2 = p2;
-//        this.animator = animator;
+    public MainGame() {
+        // Generate Data for AI
 //        try {
 //            File data = new File(Constants.ASSETS_DIR + "DataToTrain1.csv");
 //            out = new PrintWriter(new BufferedWriter(new FileWriter(data)));
@@ -49,8 +46,10 @@ public class MainGame implements GLEventListener {
         startTime = LocalTime.now();
         GL gl = gld.getGL();
         initPlayers();
+        PaddleListener paddleListener = new PaddleListener(getDeltaTime());
         Globals.glCanvas.addKeyListener(paddleListener);
         Globals.glCanvas.addMouseMotionListener(paddleListener);
+
 
         //Let's use a different color than black
         gl.glClearColor(0.95f, 0.95f, 0.95f, 1);
@@ -94,7 +93,8 @@ public class MainGame implements GLEventListener {
         Drawer.drawHockey(gl, hockey, getDeltaTime());
 
         // Start AI
-//        gameAI();
+        if(Globals.isSingleMode)
+            gameAI();
 
         // Generate AI data
 //        out.println(hockey.position.x + "," + hockey.position.y + "," + hockey.speed + "," + paddle1.position.x + "," + paddle1.position.y);
@@ -114,8 +114,6 @@ public class MainGame implements GLEventListener {
     private void initPlayers() {
         // Initialize game objects
         hockey = new Hockey(30, new Point(WIDTH / 2, HEIGHT / 2), new Color(250, 50, 30), true, 0);
-        paddleListener = new PaddleListener(Globals.paddles[0], Globals.paddles[1], getDeltaTime());
-
     }
 
     public float getDeltaTime() {

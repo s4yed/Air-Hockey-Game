@@ -27,6 +27,10 @@ public class SinglePlayerScreen extends javax.swing.JFrame implements ScreenInit
         return singlePlayerScreen;
     }
 
+    public void removeInstance() {
+        singlePlayerScreen = null;
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.

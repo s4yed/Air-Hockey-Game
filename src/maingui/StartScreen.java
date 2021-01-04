@@ -239,6 +239,7 @@ public class StartScreen extends javax.swing.JFrame implements ScreenInitializer
                     buttonSound.play(false);
                     if (tP != null) {
                         tP.dispose();
+                        tP.removeInstance();
                     }
                     sP = SinglePlayerScreen.getInstance();
                     sP.setVisible(true);
@@ -249,6 +250,7 @@ public class StartScreen extends javax.swing.JFrame implements ScreenInitializer
                     buttonSound.play(false);
                     if (sP != null) {
                         sP.dispose();
+                        sP.removeInstance();
                     }
                     tP = TwoPlayerScreen.getInstance();
                     tP.setVisible(true);
