@@ -233,7 +233,7 @@ public class TwoPlayerScreen extends javax.swing.JFrame implements ScreenInitial
         buttonSound.play(false);
         if (!(Globals.firstPlayer.name.equals("") || Globals.secondPlayer.name.equals(""))) {
             this.dispose();
-
+            Globals.isSingleMode = false;
             Globals.startGame();
         }
     }
