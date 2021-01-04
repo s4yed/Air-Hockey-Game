@@ -1,0 +1,21 @@
+Instructions:
+
+The game is pretty easy, a player can hit the moving hockey with
+his paddle in order to direct it in the opponent's goal and vice versa.
+
+Any player can play the game in two modes:
+	1. The first is the single mode by which he can play V.S an AI.
+	2. The other one he can play V.S another player.
+
+Controls:
+
+In case of the first mode:
+The player can move the hockey with the arrow keys or the mouse.
+
+In case of the other mode:
+Either of the two players can play with the arrow keys or press:
+
+	1. W: To move the hockey up.
+	2. S: To move the hockey down.
+	3. D: To move the hockey right.
+	4. A: To move the hockey left.
