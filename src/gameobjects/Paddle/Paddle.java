@@ -25,7 +25,7 @@ public class Paddle extends Circle {
         super(size, position, rgb, isFilled, lineWidth);
         mass = radius * 0.9f;
         angle = 0;
-        speed = Constants.SPEED;
+        speed = Constants.SPEED - 50;
     }
 
     @Override
@@ -78,8 +78,8 @@ public class Paddle extends Circle {
      */
     public void move(int up, int down, int left, int right, float deltaTime) {
         float dx = this.position.x, dy = this.position.y;
-        this.position.x += (right - left) * speed * deltaTime;
-        this.position.y += (up - down) * speed * deltaTime;
+        this.position.x += (right - left) * speed;
+        this.position.y += (up - down) * speed;
         dx = this.position.x - dx;
         dy = this.position.y - dy;
         this.angle = (float) Math.atan2(dy, dx);
