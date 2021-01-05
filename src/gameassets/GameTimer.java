@@ -33,7 +33,7 @@ public class GameTimer {
         counter = new JLabel("00:00");
         counter.setHorizontalAlignment(JLabel.CENTER);
         counter.setVerticalAlignment(JLabel.CENTER);
-        counter.setFont(Constants.DISPLAY_FONT);
+        counter.setFont(Constants.DISPLAY_FONT());
         counter.setForeground(Constants.LIGHT);
         timer = new javax.swing.Timer(delay, e -> {
             seconds = (seconds + 1) % 60;

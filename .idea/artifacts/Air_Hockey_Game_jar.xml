@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Air Hockey Game:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Air_Hockey_Game_jar</output-path>
+    <root id="archive" name="Air Hockey Game.jar">
+      <element id="module-output" name="Air Hockey Game" />
+      <element id="extracted-dir" path="C:/JOGLwin/lib64/jogl.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/JOGLwin/lib64/gluegen-rt.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
